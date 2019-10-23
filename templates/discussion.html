@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+      <div class="jumbotron">
+	    <p class="lead"><h3>{{ call['gamename'] }} {{ call['format'] }} pts challenge by {{ call['username'] }} on {{ call['gamedate'] }} :</h3>
+			<br><br><h5>{{ call['body'] }} </h5>
+		</p>
+	  </div>
+		{% for ans in answers %}
+		<div class="jumbotron">
+			<p class="lead">Answer by {{ ans['username'] }} on {{ ans['created'].strftime('%d-%m-%Y') }}:<br><br> {{ ans['post'] }}
+			</p>
+	    </div>
+	    {% endfor %}
+	    <div class="jumbotron">
+
+	    <form method="post">
+			<label for="text">Your answer:</label>
+			<textarea class="form-control is-invalid" placeholder="Hi I'm interested!" id="answer" name="answer" required></textarea>
+			<button class="btn btn-outline-success my-2 my-sm-0" style="float: right;" type="submit">Submit</button>
+	    </form>
+
+	    </div>
+    </div>
+
+{% endblock content %}

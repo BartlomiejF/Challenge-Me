@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %} Add challenge {% endblock title %}
+{% block content %}
+
+<div class="row mb-3">
+	<div class="col-sm-6 themed-grid-col">
+		<div class="bg-light" >
+			<div class="jumbotron" style="height: 450px;">
+				<form method="post" id="challenge-form" onsubmit="return checkMarker();">
+					<div class="lb-3">
+					    <div class="row mb-3">
+					        <div class="container" style="text-align: center;">
+					            <span class="text-muted">Mind your privacy and safety when filling this form.</span>
+					        </div>
+					    </div>
+						<div class="row mb-3">
+
+							<div class="col-md-6">
+								<label for="country">Choose game</label>
+								<select class="custom-select d-block w-100" name="game" id="game" required>
+								<option value="">Choose...</option>
+								{% for game in gamelist %}
+								<option>{{ game['gamename'] }}</option>
+								{% endfor %}
+								</select>
+							</div>
+
+							<div class="col-md-6">
+								<label for="format">Point format</label>
+								<input type="number" class="form-control" name="format" id="format">
+							</div>
+
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label for="date">Choose game date</label>
+								<input type="date" class="form-control" name="date" id="date" required>
+							</div>
+						</div>
+
+						<div class="mb-3">
+
+							<input type="hidden" id="position" name="position" value="" required></input>
+
+						</div>
+						<div class="mb-3">
+							<label for="text">Your challenge:</label>
+							<textarea class="form-control is-invalid" placeholder="Eg. meetplace and time" id="challenge" name="challenge" required></textarea>
+						</div>
+						<div class="mb-3">
+							<button class="btn-sm btn-secondary btn-block" id="form-submit" type="submit">Make challenge</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-6 themed-grid-col">
+		<div id="map" style="height: 450px;"></div>
+
+		<script type="text/javascript">
+		// The first parameter are the coordinates of the center of the map
+		// The second parameter is the zoom level
+		var map = L.map('map').setView([52.220, 21.000], 11);
+
+		// {s}, {z}, {x} and {y} are placeholders for map tiles
+		// {x} and {y} are the x/y of where you are on the map
+		// {z} is the zoom level
+		// {s} is the subdomain of cartodb
+		var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+		});
+
+		// Now add the layer onto the map
+		map.addLayer(layer);
+
+		var marker = L.marker();
+		function onMapClick(e) {
+		    marker
+				.setLatLng(e.latlng)
+				.addTo(map);
+
+		    document.getElementById('position').value=e.latlng;
+		    marker.bindPopup("Your challenge")
+			};
+
+		function checkMarker() {
+		if (document.getElementById('position').value == ""){
+			alert('Click on map to put a marker.')
+			return false
+			}
+		else {
+			return true
+			}
+		};
+
+
+		map.on('click', onMapClick);
+		</script>
+
+	</div>
+
+</div>
+
+
+
+{% endblock content %}

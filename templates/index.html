@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+      <div class="jumbotron">
+	    <h1 class="cover-heading">Find opponent!</h1>
+	    <p class="lead">Search for someone who is willing to play. Take lead of your miniatures and march towards enemy.</p>
+	    <p class="lead">
+		<p class="lead">There {% if  num == 1 %} is {{ num }} call for battle all around the world.
+		{% else %} are {{ num }} calls for battle all around the world.{% endif %}<p>
+	      <a href="{{ url_for('mapper.opponentmap') }}" class="btn btn-lg btn-secondary">Go to map</a>
+	    </p>
+      </div>
+    </div>
+{% endblock content %}

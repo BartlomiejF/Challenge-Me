@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>{% block title %}{% endblock title %} Challenge - Me</title>
+    <!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/navbar-top/"> -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{url_for('static', filename='bootstrap.min.css')}}" rel="stylesheet">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+	   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+	   crossorigin=""/>
+
+   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+   integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+   crossorigin=""></script>
+
+	</head>
+
+  <body class="bg-light">
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="{{ url_for('index') }}">Challenge - Me</a>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('addchallenge.addchallenge') }}">Add challenge</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('mapper.opponentmap') }}">View map</a>
+			</li>
+			{% if g.user %}
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your discussions</a>
+		        <div class="dropdown-menu" aria-labelledby="dropdown01">
+					{% for discussion in g['disc'] %}
+		          <a class="dropdown-item" href="{{ url_for('discussion.challengeanswer', nb=discussion['id']) }}">{{ discussion['gamename'] }} - {{ discussion['gamedate'] }}</a>
+					{% endfor %}
+		        </div>
+			</li>
+			{% endif %}
+        </ul>
+        {% if g.user %}
+		<form class="mt-2 mt-md-0" action="{{ url_for('auth.logout') }}">
+			<label style="color: white;">{{g.user['username']}}</label>
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+        {% else %}
+        <form class="mt-2 mt-md-0" action="{{ url_for('auth.login') }}">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log In</button>
+        </form>
+        <form class="mt-2 mt-md-0" action="{{ url_for('auth.register') }}">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Register</button>
+        </form>
+        {% endif %}
+      </div>
+    </nav>
+	{% block content %} {% endblock content %}
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+  </body>
+  <!-- <footer class="footer mt-auto py-3">
+  <div class="container">
+    <span class="text-muted" style="text-align: center;">Powered by Flask, Bootstrap and Leaflet.</span>
+  </div>
+</footer> -->
+</html>

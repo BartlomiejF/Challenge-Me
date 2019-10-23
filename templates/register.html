@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} Register {% endblock title %}
+{% block content %}
+
+<div class="jumbotron" style="width: 300px; margin: auto">
+	<form class="form-signin" method="post">
+		<h1 class="h3 mb-3 font-weight-normal">Register</h1>
+		<input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+		<input type="password" id="passwd" name="passwd" class="form-control" placeholder="Password" required>
+		<div class="custom-control custom-checkbox" style="display: inline-block; vertical-align: middle;">
+          <input type="checkbox" class="custom-control" style="position: absolute;" id="adulthood" required>
+          <label class="custom-control" style="vertical-align: middle;" for="adulthood">I am an adult.</label>
+        </div>
+		<br>
+		<div style="text-align: center;"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Register</button></div>
+	</form>
+</div>
+
+{% endblock content %}
